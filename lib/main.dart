@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kawach/onboarding_screens/splash_screen.dart';
 
 void main() {
@@ -10,12 +11,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+    return GetMaterialApp(
+      title: "mahila kavach",
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return SafeArea(
+            child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: child!,
+        ));
+      },
       home: SplashScreen(),
     );
   }
