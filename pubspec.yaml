@@ -60,7 +60,7 @@ flutter:
   #         style: italic
     - family: Mont
       fonts:
-        - asset: assets/fonts/Montserrat-Italic-VariableFont_wght.ttf
+        - asset: assets/fonts/Montserrat-Bold.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

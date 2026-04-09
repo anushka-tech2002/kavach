@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: "mahila kavach",
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: "Mont"),
       builder: (context, child) {
         return SafeArea(
             child: GestureDetector(
