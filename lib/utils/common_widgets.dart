@@ -98,3 +98,34 @@ Widget commonbutton({
     ),
   );
 }
+
+Widget commondropdown({required List<String> items, required String hinttext, required ValueChanged<String?> onchange}) {
+  return DropdownButtonFormField<String>(
+      items: items.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+      decoration: InputDecoration(
+        hintText: hinttext,
+        hintStyle: TextStyle(
+          color: Colors.white, // 👈 change color here
+        ),
+        fillColor: Colors.white,
+        filled: true,
+        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white38), borderRadius: BorderRadius.circular(50)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.red, width: 1.2),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: Colors.red, width: 1.2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: BorderSide(color: Colors.grey.shade400),
+        ),
+      ),
+      onChanged: onchange);
+}

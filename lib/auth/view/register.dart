@@ -180,57 +180,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Row(
                           children: [
                             Expanded(
-                              child: DropdownButtonFormField(
-                                value: selectedState,
-                                dropdownColor: Colors.grey.shade900,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.grey.shade800,
-                                  hintText: "State",
-                                  hintStyle: TextStyle(color: Colors.white),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                                items: states
-                                    .map((e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(e, style: TextStyle(color: Colors.white, fontSize: 14)),
-                                        ))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedState = value.toString();
-                                  });
-                                },
-                              ),
+                              child: commondropdown(items: states, hinttext: "State", onchange: (val) {}),
                             ),
                             SizedBox(width: w * 0.02),
                             Expanded(
-                              child: DropdownButtonFormField(
-                                value: selectedCity,
-                                dropdownColor: Colors.grey.shade900,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.grey.shade800,
-                                  hintText: "City",
-                                  hintStyle: TextStyle(color: Colors.white),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                                items: cities
-                                    .map((e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(e, style: TextStyle(color: Colors.white, fontSize: 14)),
-                                        ))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedCity = value.toString();
-                                  });
-                                },
-                              ),
+                              child: commondropdown(items: cities, hinttext: "Cities", onchange: (val) {}),
                             ),
                           ],
                         ),
@@ -281,6 +235,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
 
+                        SizedBox(height: h * 0.02),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {},
+                            splashColor: Colors.blue.withOpacity(0.3), // ripple color
+                            highlightColor: Colors.transparent, // optional highlight
+                            radius: 50,
+                            child: RichText(
+                              text: TextSpan(
+                                  text: "ALREADY REGISTER ? ",
+                                  style: TextStyle(color: Colors.white60, fontFamily: "Mont"),
+                                  children: [TextSpan(text: "LOGIN", style: TextStyle(color: Colors.white60))]),
+                            ),
+                          ),
+                        ),
                         SizedBox(height: h * 0.02),
                       ],
                     ),
