@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:kawach/auth/view/login.dart';
 import 'package:kawach/utils/common_widgets.dart';
 import 'package:kawach/utils/global.dart';
+import 'package:kawach/utils/shared_pref.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -81,26 +84,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         /// Name
                         commonTextField(
-                            context: context,
-                            hinttext: "Full Name",
-                            controller: nameController,
-                            icon: Icon(FontAwesomeIcons.user),
-                            bordercolour: Colors.blue,
-                            textfieldcolour: Colors.grey.shade800,
-                            hinttextcolour: Colors.white60,
-                            iconcolour: Colors.white60,
-                            iscolourfill: true,
-                            radius: 30,
-                            suffixtext: "verify"),
-
-                        SizedBox(height: h * 0.02),
-
-                        /// Mobile
-                        commonTextField(
                           context: context,
-                          hinttext: "Mobile Number",
-                          controller: mobileController,
-                          icon: Icon(FontAwesomeIcons.phone),
+                          hinttext: "Full Name",
+                          controller: nameController,
+                          icon: Icon(FontAwesomeIcons.user),
                           bordercolour: Colors.blue,
                           textfieldcolour: Colors.grey.shade800,
                           hinttextcolour: Colors.white60,
@@ -109,6 +96,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           radius: 30,
                         ),
 
+                        SizedBox(height: h * 0.02),
+
+                        /// email
+                        commonTextField(
+                            context: context,
+                            hinttext: "Email",
+                            controller: mobileController,
+                            icon: Icon(FontAwesomeIcons.envelope),
+                            bordercolour: Colors.blue,
+                            textfieldcolour: Colors.grey.shade800,
+                            hinttextcolour: Colors.white60,
+                            iconcolour: Colors.white60,
+                            iscolourfill: true,
+                            radius: 30,
+                            suffixtext: "verify"),
+                        SizedBox(height: h * 0.02),
+
+                        ///password
+                        commonTextField(
+                          context: context,
+                          hinttext: "Create password",
+                          controller: mobileController,
+                          icon: Icon(FontAwesomeIcons.eye),
+                          bordercolour: Colors.blue,
+                          textfieldcolour: Colors.grey.shade800,
+                          hinttextcolour: Colors.white60,
+                          iconcolour: Colors.white60,
+                          iscolourfill: true,
+                          radius: 30,
+                        ),
+                        SizedBox(height: h * 0.02),
+
+                        ///mobile number
+                        commonTextField(
+                            context: context,
+                            hinttext: "Mobile Number",
+                            controller: mobileController,
+                            icon: Icon(FontAwesomeIcons.phone),
+                            bordercolour: Colors.blue,
+                            textfieldcolour: Colors.grey.shade800,
+                            hinttextcolour: Colors.white60,
+                            iconcolour: Colors.white60,
+                            iscolourfill: true,
+                            radius: 30,
+                            suffixtext: "verify"),
                         SizedBox(height: h * 0.02),
 
                         /// Parent Mobile
@@ -227,8 +259,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: commonbutton(
-                            onpress: () {},
-                            label: "REGISTER",
+                            onpress: () {
+                              //Get.to(() => AddContacts());
+                              return _showdialogue(context);
+                            },
+                            label: "Next",
                             buttonbg: Color(0xFF42A5F5),
                             radius: 30,
                             borderColor: Colors.white,
@@ -239,7 +274,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Material(
                           color: Colors.transparent,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Get.to(() => LoginScreen());
+                            },
                             splashColor: Colors.blue.withOpacity(0.3), // ripple color
                             highlightColor: Colors.transparent, // optional highlight
                             radius: 50,
@@ -261,6 +298,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showdialogue(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 50),
+          child: Container(
+            height: 200,
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(FontAwesomeIcons.fingerprint),
+                Text("User Authentication"),
+                Align(alignment: Alignment.center, child: Text("Do you want to enable Biometric authentication")),
+                Row(
+                  children: [
+                    Expanded(
+                        child: commonbutton(
+                            onpress: () async {
+                              await MySharedPref.saveBooleanValue("enable_biometric", true);
+                              await MySharedPref.saveBooleanValue("disable_biometric", false);
+                              print("biometric is enable");
+                              Get.back();
+                            },
+                            label: "Enable")),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                        child: commonbutton(
+                            onpress: () async {
+                              await MySharedPref.saveBooleanValue("disable_biometric", true);
+                              await MySharedPref.saveBooleanValue("enable_biometric", false);
+                              var disable = await MySharedPref.readBooleanValue("disable_biometric");
+                              print("biometric is $disable");
+                              Get.back();
+                            },
+                            label: "Disable"))
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

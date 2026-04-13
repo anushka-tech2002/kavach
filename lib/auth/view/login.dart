@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:kawach/auth/view/forget_pass.dart';
 import 'package:kawach/auth/view/register.dart';
+import 'package:kawach/service/auth_service.dart';
 import 'package:kawach/utils/common_widgets.dart';
 import 'package:kawach/utils/global.dart';
 
@@ -117,6 +118,34 @@ class _LoginScreen extends State<LoginScreen> {
                               SizedBox(
                                 height: h * 0.012,
                               ),
+                              SizedBox(
+                                  width: double.infinity,
+                                  child: TextButton(
+                                      style: TextButton.styleFrom(backgroundColor: Color(0xFF42A5F5), foregroundColor: Colors.white),
+                                      onPressed: () async {
+                                        bool check = await AuthService().authenticatelocally();
+                                        if (check) {
+                                          Get.to(() => RegisterScreen());
+                                        } else {
+                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Biometric authentication is not enabled")));
+                                        }
+                                        // } else {
+                                        //
+                                        // }
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.fingerprint,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text("FINGUREPRINT LOGIN"),
+                                        ],
+                                      ))),
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
