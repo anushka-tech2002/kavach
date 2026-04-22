@@ -6,6 +6,8 @@ import 'package:kawach/utils/common_widgets.dart';
 import 'package:kawach/utils/global.dart';
 import 'package:kawach/utils/shared_pref.dart';
 
+import '../../contact/add_contacts.dart';
+
 class RegisterScreen extends StatefulWidget {
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -260,8 +262,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: double.infinity,
                           child: commonbutton(
                             onpress: () {
-                              //Get.to(() => AddContacts());
-                              return _showdialogue(context);
+                              Get.to(() => AddContacts());
+                              // return _showdialogue(context);
                             },
                             label: "Next",
                             buttonbg: Color(0xFF42A5F5),

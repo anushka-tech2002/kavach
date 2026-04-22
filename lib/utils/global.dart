@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AppImageData {
   static const splash_logo = "assets/images/onscreenposter.jpg";
@@ -24,5 +25,17 @@ class ScreenSize {
 
   static double blockHeight(BuildContext context) {
     return height(context) / 100;
+  }
+}
+
+class Toast {
+  static Future<void> toastMessage({required String text, Color? bgcolour}) {
+    return Fluttertoast.showToast(msg: text, backgroundColor: bgcolour);
+  }
+}
+
+class ScaffoldMessage {
+  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> getScafoldMessage({required String text, required BuildContext context, Color? bgcolour}) {
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
 }

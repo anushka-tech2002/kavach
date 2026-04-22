@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/contact.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:kawach/contact/contact.dart';
+import 'package:kawach/controller/contact_controller.dart';
 
-import '../../utils/global.dart';
+import '../utils/global.dart';
 
 class AddContacts extends StatefulWidget {
   @override
@@ -9,6 +13,7 @@ class AddContacts extends StatefulWidget {
 }
 
 class _ForgetPassScreen extends State<AddContacts> {
+  final ContactController _contactController = Get.find<ContactController>();
   double w = 0.0;
   double h = 0.0;
   @override
@@ -21,46 +26,63 @@ class _ForgetPassScreen extends State<AddContacts> {
         titleTextStyle: TextStyle(color: Colors.white, fontFamily: "Mont"),
         title: Text("Add Contacts"),
       ),
-      body: Column(
-        children: [
-          Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF0D47A1),
-                    Color(0xFF1976D2),
-                    Color(0xFF42A5F5),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF0D47A1),
+                      Color(0xFF1976D2),
+                      Color(0xFF42A5F5),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
-              ),
-              child: Column(
-                children: [
-                  InstructionCard(),
-                  SizedBox(
-                    width: w * 0.4,
-                    child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        shadowColor: Colors.white,
-                        backgroundColor: Colors.white,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.add,
-                            size: 15,
-                          ),
-                          Text("Add Contacts")
-                        ],
+                child: Column(
+                  children: [
+                    InstructionCard(),
+                    SizedBox(
+                      width: w * 0.4,
+                      child: TextButton(
+                        onPressed: () {
+                          Get.to(() => ContactPage());
+                        },
+                        style: TextButton.styleFrom(
+                          shadowColor: Colors.white,
+                          backgroundColor: Colors.white,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.add,
+                              size: 15,
+                              color: Colors.black,
+                            ),
+                            Text(
+                              "Add Contacts",
+                              style: TextStyle(color: Colors.black),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  )
-                ],
-              ))
-        ],
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      itemCount: _contactController.contactlist.length,
+                      itemBuilder: (context, index) {
+                        var phonenum = _contactController.contactlist[index];
+                        return _buildContactWidget(plist: phonenum);
+                      },
+                    )
+                  ],
+                ))
+          ],
+        ),
       ),
     );
     // TODO: implement build
@@ -150,6 +172,16 @@ class InstructionCard extends StatelessWidget {
             width: w,
             height: h,
           ),
+          SizedBox(
+            height: h * 0.010,
+          ),
+          Divider(),
+          Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Click below button to add contacts",
+                style: TextStyle(color: Colors.blue),
+              )),
         ],
       ),
     );
@@ -181,4 +213,48 @@ class InstructionCard extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget _buildContactWidget({required Contact plist}) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border.all(color: Colors.white),
+        //boxShadow: [BoxShadow(blurRadius: 15, color: Colors.white)],
+        borderRadius: BorderRadius.circular(15),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: CircleAvatar(
+              backgroundColor: Colors.blue.shade400,
+              child: Text(
+                plist.displayName[0].toUpperCase(),
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: Text(
+              plist.displayName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          Expanded(
+              flex: 4,
+              child: Text(
+                plist.phones.map((e) => e.number).toString(),
+                style: TextStyle(color: Colors.white),
+              ))
+        ],
+      ),
+    ),
+  );
 }
