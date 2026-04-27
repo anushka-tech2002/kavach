@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_contacts/contact.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:kawach/contact/contact.dart';
@@ -16,6 +15,7 @@ class _ForgetPassScreen extends State<AddContacts> {
   final ContactController _contactController = Get.find<ContactController>();
   double w = 0.0;
   double h = 0.0;
+
   @override
   Widget build(BuildContext context) {
     w = ScreenSize.width(context);
@@ -30,6 +30,7 @@ class _ForgetPassScreen extends State<AddContacts> {
         child: Column(
           children: [
             Container(
+                // height: h,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -47,7 +48,7 @@ class _ForgetPassScreen extends State<AddContacts> {
                     SizedBox(
                       width: w * 0.4,
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           Get.to(() => ContactPage());
                         },
                         style: TextButton.styleFrom(
@@ -70,15 +71,6 @@ class _ForgetPassScreen extends State<AddContacts> {
                         ),
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: _contactController.contactlist.length,
-                      itemBuilder: (context, index) {
-                        var phonenum = _contactController.contactlist[index];
-                        return _buildContactWidget(plist: phonenum);
-                      },
-                    )
                   ],
                 ))
           ],
@@ -213,48 +205,4 @@ class InstructionCard extends StatelessWidget {
       ],
     );
   }
-}
-
-Widget _buildContactWidget({required Contact plist}) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border.all(color: Colors.white),
-        //boxShadow: [BoxShadow(blurRadius: 15, color: Colors.white)],
-        borderRadius: BorderRadius.circular(15),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: CircleAvatar(
-              backgroundColor: Colors.blue.shade400,
-              child: Text(
-                plist.displayName[0].toUpperCase(),
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 4,
-            child: Text(
-              plist.displayName,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          Expanded(
-              flex: 4,
-              child: Text(
-                plist.phones.map((e) => e.number).toString(),
-                style: TextStyle(color: Colors.white),
-              ))
-        ],
-      ),
-    ),
-  );
 }

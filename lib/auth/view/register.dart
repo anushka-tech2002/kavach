@@ -265,7 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Get.to(() => AddContacts());
                               // return _showdialogue(context);
                             },
-                            label: "Next",
+                            label: "Save & Next",
                             buttonbg: Color(0xFF42A5F5),
                             radius: 30,
                             borderColor: Colors.white,

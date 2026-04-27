@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:kawach/contact/contactshow.dart';
 import 'package:kawach/controller/contact_controller.dart';
 import 'package:kawach/service/contact_service.dart';
+import 'package:kawach/utils/dbhelper.dart';
 import 'package:kawach/utils/global.dart';
 
 class ContactPage extends StatefulWidget {
@@ -25,6 +27,7 @@ class _ContactPage extends State<ContactPage> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await DatabaseHelper().database;
       var contacts = await ContactService.getAllContacts();
       setState(() {
         myContacts = contacts;
@@ -48,15 +51,16 @@ class _ContactPage extends State<ContactPage> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: TextButton.icon(
-                onPressed: () {
-                  if (selectedchk.length == 5) {
-                    final tempIndexes = List<int>.from(selectedchk); // ✅ safe copy
+                onPressed: () async {
+                  int count = await DatabaseHelper().getdatabaseCount();
+                  if (count < 5) {
+                    final tempIndexes = List<int>.from(selectedchk);
 
                     final cntlist = tempIndexes.map((i) => myContacts[i]).toList();
+                    int? result = await DatabaseHelper().insertData(contactlist: cntlist);
+                    //bool result = _contactCtrll.getAllContacts(ctlist: cntlist);
 
-                    bool result = _contactCtrll.getAllContacts(ctlist: cntlist);
-
-                    if (result) {
+                    if (result! > 0) {
                       ScaffoldMessage.getScafoldMessage(
                         text: "Added Successfully",
                         context: context,
@@ -66,10 +70,12 @@ class _ContactPage extends State<ContactPage> {
                         selectedchk.clear();
                         isselected = false;
                       });
+                      Get.to(() => ContactShow());
                     }
                   } else {
+                    Get.to(() => ContactShow());
                     Toast.toastMessage(
-                      text: "Please select exactly 5 contacts",
+                      text: "you have alredy selected ",
                       bgcolour: Colors.black,
                     );
                   }
